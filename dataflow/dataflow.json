@@ -1,0 +1,28 @@
+{
+	"name": "dataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Soruce",
+						"type": "DatasetReference"
+					},
+					"name": "source"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "streaming_staging",
+						"type": "DatasetReference"
+					},
+					"name": "sink"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tstep as string,\n\t\ttype as string,\n\t\tamount as integer '###,###',\n\t\tnameOrig as string,\n\t\toldbalanceOrg as integer '###,###',\n\t\tnewbalanceOrig as integer '###,###',\n\t\tnameDest as string,\n\t\toldbalanceDest as integer '###,###',\n\t\tnewbalanceDest as integer '###,###',\n\t\tisFraud as boolean,\n\t\tisFlaggedFraud as boolean\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpartitionBy('key',\n\t\t0,\n\t\tstep\n\t)) ~> source\nsource sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\tfilePattern:'staging_file[n]',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink"
+		}
+	}
+}

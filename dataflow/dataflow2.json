@@ -1,0 +1,32 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "streaming_staging",
+						"type": "DatasetReference"
+					},
+					"name": "source"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "output",
+						"type": "DatasetReference"
+					},
+					"name": "sink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Aggregate"
+				}
+			],
+			"script": "source(output(\n\t\tstep as string,\n\t\ttype as string,\n\t\tamount as double,\n\t\tnameOrig as string,\n\t\toldbalanceOrg as double,\n\t\tnewbalanceOrig as double,\n\t\tnameDest as string,\n\t\toldbalanceDest as double,\n\t\tnewbalanceDest as double,\n\t\tisFraud as boolean,\n\t\tisFlaggedFraud as boolean\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source\nsource aggregate(groupBy(step,\n\t\ttype),\n\tamount = sum(amount)) ~> Aggregate\nAggregate sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tfilePattern:'output[n]',\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink"
+		}
+	}
+}

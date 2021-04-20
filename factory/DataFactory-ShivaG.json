@@ -1,0 +1,9 @@
+{
+	"name": "DataFactory-ShivaG",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "cd093f54-2c78-4933-b5f0-22815bc2f0cb",
+		"tenantId": "06e1c858-5435-4e26-ab8e-c376a864e0ee"
+	}
+}

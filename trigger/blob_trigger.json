@@ -1,0 +1,30 @@
+{
+	"name": "blob_trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline2",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/blobevents-container1/blobs/blobevents/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/4969030c-b2e1-4570-9744-b714cdd2a1d4/resourceGroups/AllResourceGroup/providers/Microsoft.Storage/storageAccounts/blobeventstorageact",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
